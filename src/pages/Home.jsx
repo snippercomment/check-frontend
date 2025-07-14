@@ -29,10 +29,11 @@ export default function Home() {
                 <SearchBar search={search} setSearch={setSearch} />
 
                 {/* Hàng gồm Gợi ý và Lọc */}
-                <div className="w-full max-w-xl flex justify-between items-center">
+                <div className="w-full max-w-xl flex justify-end items-center gap-4">
                     <SuggestionButton setBooks={setBooks} />
                     <FilterBar filter={filter} setFilter={setFilter} />
                 </div>
+
             </div>
 
             {/* Danh sách sách */}

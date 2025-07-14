@@ -1,9 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Lightbulb, X } from "lucide-react";
+import textbooks from "../data/mockBooks"; // Import mock data
 
-export default function SuggestionButton({ }) {
+export default function SuggestionButton() {
     const [showPopup, setShowPopup] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
+    const navigate = useNavigate();
+
+    const handleBookClick = (bookId) => {
+        navigate(`/book/${bookId}`);
+        setShowPopup(false);
+    };
 
     const handleSuggest = async () => {
         const userId = 123;
@@ -11,24 +19,10 @@ export default function SuggestionButton({ }) {
 
         const response = await new Promise((resolve) => {
             setTimeout(() => {
-                resolve([
-                    {
-                        id: 999,
-                        name: "Sách luyện thi TOEIC",
-                        price: 400000,
-                        image: "/books/suggestion.jpg",
-                        shortDesc: "Cho người mới bắt đầu",
-                        rating: 4.9,
-                    },
-                    {
-                        id: 1000,
-                        name: "Từ vựng IELTS nâng cao",
-                        price: 650000,
-                        image: "/books/suggestion2.jpg",
-                        shortDesc: "Từ vựng chuyên sâu",
-                        rating: 4.7,
-                    },
-                ]);
+                // Lấy ngẫu nhiên 2 cuốn sách từ mock data
+                const shuffled = [...textbooks].sort(() => 0.5 - Math.random());
+                const randomBooks = shuffled.slice(0, 2);
+                resolve(randomBooks);
             }, 1000);
         });
 
@@ -58,7 +52,11 @@ export default function SuggestionButton({ }) {
                     </div>
                     <div className="space-y-3 max-h-72 overflow-auto">
                         {suggestions.map((book) => (
-                            <div key={book.id} className="flex items-start gap-3">
+                            <div
+                                key={book.id}
+                                className="flex items-start gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition"
+                                onClick={() => handleBookClick(book.id)}
+                            >
                                 <img
                                     src={book.image}
                                     alt={book.name}
