@@ -13,7 +13,7 @@ export default function BookCard({ book }) {
     }, [book.id]);
 
     const toggleFavorite = (e) => {
-        e.stopPropagation(); // Ngăn sự kiện lan lên thẻ div chính
+        e.stopPropagation();
         const current = JSON.parse(localStorage.getItem("favorites") || "[]");
         const exists = current.find((b) => b.id === book.id);
 
@@ -40,37 +40,42 @@ export default function BookCard({ book }) {
     };
 
     return (
-        <div className="border rounded-lg shadow-sm hover:shadow-md transition bg-white">
+        <div
+            onClick={handleCardClick}
+            className="group border rounded-2xl bg-white shadow hover:shadow-lg transition cursor-pointer overflow-hidden flex flex-col"
+        >
             {/* Ảnh sách */}
-            <img
-                src={book.image}
-                alt={book.name}
-                onClick={handleCardClick}
-                className="w-full h-52 object-contain rounded-t p-2 bg-white cursor-pointer"
-            />
+            <div className="relative bg-white">
+                <img
+                    src={book.image}
+                    alt={book.name}
+                    className="w-full h-52 object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+                />
+                <button
+                    onClick={toggleFavorite}
+                    className={`absolute top-2 right-2 p-2 rounded-full shadow-sm ${isFavorited ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-400"
+                        } hover:bg-pink-200 hover:text-pink-700 transition`}
+                >
+                    <Heart className="w-5 h-5 fill-current" />
+                </button>
+            </div>
 
             {/* Nội dung */}
-            <div className="px-3 pb-3">
-                <h2 className="font-semibold mt-1 text-base">{book.name}</h2>
+            <div className="p-4 flex flex-col flex-1">
+                <h2 className="font-semibold text-base text-gray-800 mb-1 line-clamp-2">{book.name}</h2>
                 <p className="text-sm text-gray-600 line-clamp-2">{book.shortDesc}</p>
-                <p className="text-blue-600 font-bold mt-1">
-                    {book.price.toLocaleString()}đ
-                </p>
-
-                {/* Nút Xem chi tiết + Yêu thích bên phải */}
-                <div className="flex justify-end gap-2 mt-2">
+                <div className="mt-auto">
+                    <p className="text-blue-600 font-bold mt-2">
+                        {book.price.toLocaleString()}đ
+                    </p>
                     <button
-                        onClick={handleCardClick}
-                        className="text-sm text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded cursor-pointer"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleCardClick();
+                        }}
+                        className="mt-3 w-full text-sm text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full transition cursor-pointer"
                     >
                         Xem chi tiết
-                    </button>
-                    <button
-                        onClick={toggleFavorite}
-                        className={`p-1 rounded hover:bg-pink-100 cursor-pointer ${isFavorited ? "text-pink-600" : "text-gray-400"
-                            }`}
-                    >
-                        <Heart className="w-5 h-5 fill-current" />
                     </button>
                 </div>
             </div>

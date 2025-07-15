@@ -24,17 +24,17 @@ export default function Home() {
 
     return (
         <div className="w-full px-4">
-            {/* Thanh tìm kiếm */}
             <div className="w-full flex flex-col items-center gap-3 mb-4">
-                <SearchBar search={search} setSearch={setSearch} />
-
-                {/* Hàng gồm Gợi ý và Lọc */}
-                <div className="w-full max-w-xl flex justify-end items-center gap-4">
-                    <SuggestionButton setBooks={setBooks} />
+                {/* Hàng tìm kiếm + lọc ngang hàng */}
+                <div className="w-full max-w-4xl flex flex-row items-center justify-between gap-4">
+                    <SearchBar search={search} setSearch={setSearch} />
                     <FilterBar filter={filter} setFilter={setFilter} />
                 </div>
 
+                {/* Gợi ý luôn hiển thị */}
+                <SuggestionButton setBooks={setBooks} />
             </div>
+
 
             {/* Danh sách sách */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
